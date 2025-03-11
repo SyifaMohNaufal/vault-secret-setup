@@ -49,6 +49,7 @@ Fill in the `.env` file with your Vault address and Vault root token.
 
 ### 1. Prepare Input Data
 Edit `vault_input.xlsx` with the necessary details before running the script.
+![Description of Image](images/vault_input_example.png)
 
 ### 2. Run the Script
 ```bash
@@ -57,6 +58,7 @@ python vault_setup.py
 
 ### 3. Output
 After execution, the generated Vault credentials will be stored in `vault_output.xlsx`.
+![Description of Image](images/vault_output_example.png)
 
 ## License
 This project is licensed under the MIT License.
