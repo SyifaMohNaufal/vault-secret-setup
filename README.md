@@ -37,6 +37,14 @@ venv\Scripts\activate  # On Windows
 pip install -r requirements.txt
 ```
 
+### 4. Set Up Environment Variables
+Copy the `.env.example` file and rename it to `.env`:
+```bash
+cp .env.example .env  # On macOS/Linux
+copy .env.example .env  # On Windows
+```
+Fill in the `.env` file with your Vault address and Vault root token.
+
 ## Usage
 
 ### 1. Prepare Input Data
