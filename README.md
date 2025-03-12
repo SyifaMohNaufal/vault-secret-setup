@@ -52,9 +52,15 @@ Edit `vault_input.xlsx` with the necessary details before running the script.
 ![Description of Image](images/vault_input_example.png)
 
 ### 2. Run the Script
+For Development environment use this command
 ```bash
-python vault_setup.py
+python vault_setup_dev.py
 ```
+For Production environment use this command
+```bash
+python vault_setup_prod.py
+```
+
 
 ### 3. Output
 After execution, the generated Vault credentials will be stored in `vault_output.xlsx`.

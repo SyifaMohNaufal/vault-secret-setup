@@ -7,11 +7,11 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-VAULT_ADDR = os.getenv("VAULT_ADDR")
-VAULT_TOKEN = os.getenv("VAULT_TOKEN")
+VAULT_ADDR = os.getenv("VAULT_ADDR_PROD")
+VAULT_TOKEN = os.getenv("VAULT_TOKEN_PROD")
 
 # Load the Excel file
-file_path = "vault_input.xlsx"
+file_path = "vault_input_prod.xlsx"
 df = pd.read_excel(file_path)
 
 # Initialize Vault client
@@ -21,9 +21,10 @@ client = hvac.Client(url=VAULT_ADDR, token=VAULT_TOKEN)
 output_data = []
 
 # Process each row in the Excel file
-for _, row in df.iterrows():
-    print(_)
-    if row["status"] == "DONE":
+for index, row in df.iterrows():
+    print(index)
+    if row["status"] != "TODO":
+        print("this row is skipped because the request is " + str(row["status"]).lower())
         continue
     aplikasi = row["aplikasi"].strip()
     print("aplikasi:",aplikasi)
@@ -71,10 +72,10 @@ for _, row in df.iterrows():
     client.auth.approle.create_or_update_approle(
         role_name=approle,
         token_policies=[policy],
-        token_ttl="0",
-        token_max_ttl="0",
-        secret_id_ttl="0",
-        secret_id_num_uses="0"
+        token_ttl="720h",  # 30 days in hours
+        token_max_ttl="720h",  # 30 days max lifetime
+        secret_id_ttl="720h",  # Secret ID valid for 30 days
+        secret_id_num_uses="0"  # Unlimited uses until expiration
     )
     
     role_id = client.auth.approle.read_role_id(role_name=approle)["data"]["role_id"]
@@ -87,8 +88,15 @@ for _, row in df.iterrows():
     output_data.append([aplikasi, VAULT_ADDR, namespace, mount, secret_path, role_id, secret_id, key_list])
     print("output_data:", output_data)
 
+    # **Update status in DataFrame**
+    df.at[index, "status"] = "DONE"
+
+# Save the updated input file with new status
+df.to_excel(file_path, index=False)
+print("Updated input file with 'DONE' status.")
+
 # Save the output to a new Excel file
 output_df = pd.DataFrame(output_data, columns=["Application", "URL", "Namespace", "Mount", "Secret Path", "Role ID", "Secret ID", "Keys"])
-output_df.to_excel("vault_output.xlsx", index=False)
+output_df.to_excel("vault_output_prod.xlsx", index=False)
 
-print("Vault setup completed successfully!")
+print("Vault production setup completed successfully!")
