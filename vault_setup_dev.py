@@ -88,7 +88,8 @@ for index, row in df.iterrows():
     key_list = "\n".join([f"{i+1}. {key}" for i, key in enumerate(secret_data.keys())])
     print("key_list:", key_list)
 
-    output_data.append([aplikasi, VAULT_ADDR, namespace, mount, secret_path, role_id, secret_id, key_list])
+    # output_data.append([aplikasi, VAULT_ADDR, namespace, mount, secret_path, role_id, secret_id, key_list])
+    output_data.append([aplikasi, key_list, VAULT_ADDR, namespace, secret_path, role_id, mount, secret_id])
     print("output_data:", output_data)
 
     # **Update status in DataFrame**
@@ -101,7 +102,8 @@ df.to_excel(file_path, index=False)
 print("Updated input file with 'DONE' status.")
 
 # Save the output to a new Excel file
-output_df = pd.DataFrame(output_data, columns=["Application", "URL", "Namespace", "Mount", "Secret Path", "Role ID", "Secret ID", "Keys"])
+# output_df = pd.DataFrame(output_data, columns=["Application", "URL", "Namespace", "Mount", "Secret Path", "Role ID", "Secret ID", "Keys"])
+output_df = pd.DataFrame(output_data, columns=["Application", "Keys", "URL", "Namespace", "Secret Path", "Role ID", "Mount", "Secret ID"])
 output_df.to_excel("vault_output_dev.xlsx", index=False)
 
 end_time=time.time()
