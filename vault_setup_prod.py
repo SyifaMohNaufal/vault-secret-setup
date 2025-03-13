@@ -5,6 +5,8 @@ import os
 import time
 from dotenv import load_dotenv
 
+start_time = time.time()
+
 # Load environment variables
 load_dotenv()
 VAULT_ADDR = os.getenv("VAULT_ADDR_PROD")
@@ -19,6 +21,7 @@ client = hvac.Client(url=VAULT_ADDR, token=VAULT_TOKEN)
 
 # Output storage
 output_data = []
+processed_count = 0
 
 # Process each row in the Excel file
 for index, row in df.iterrows():
@@ -90,6 +93,7 @@ for index, row in df.iterrows():
 
     # **Update status in DataFrame**
     df.at[index, "status"] = "DONE"
+    processed_count+=1
 
 # Save the updated input file with new status
 df.to_excel(file_path, index=False)
@@ -99,4 +103,8 @@ print("Updated input file with 'DONE' status.")
 output_df = pd.DataFrame(output_data, columns=["Application", "URL", "Namespace", "Mount", "Secret Path", "Role ID", "Secret ID", "Keys"])
 output_df.to_excel("vault_output_prod.xlsx", index=False)
 
+end_time=time.time()
+elapsed_time = end_time-start_time
+
 print("Vault production setup completed successfully!")
+print(f"Processed {processed_count} rows in {elapsed_time:.2f} seconds.")
