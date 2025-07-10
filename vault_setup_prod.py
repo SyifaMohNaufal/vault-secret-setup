@@ -130,8 +130,10 @@ for index, row in df.iterrows():
         output_data_regen.append([aplikasi, VAULT_ADDR, namespace, role_id, secret_id])
         print("output_data_regen:", output_data_regen)
 
+        df.at[index, "status"] = "DONE"
         processed_count+=1
-
+        
+        df.to_excel(file_path, index=False)
 
 
 # Save the output to a new Excel file
