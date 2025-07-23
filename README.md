@@ -48,7 +48,17 @@ Fill in the `.env` file with your Vault address and Vault root token.
 ## Usage
 
 ### 1. Prepare Input Data
-Edit `vault_input_dev.xlsx` or `vault_input_prod.xlxs` with the necessary details before running the script.
+Before running the script, make sure to:
+
+Copy the template files:
+
+- `vault_input_dev.example.xlsx` → `vault_input_dev.xlsx`
+
+- `vault_input_prod.example.xlsx` → `vault_input_prod.xlsx`
+
+Edit `vault_input_dev.xlsx` and/or `vault_input_prod.xlsx` with the necessary details before running the script..
+
+These copied files are ignored by Git to prevent accidental exposure of sensitive information.
 ![Description of Image](images/vault_input_example.png)
 
 ### 2. Run the Script
