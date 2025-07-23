@@ -1,6 +1,4 @@
 .env
 /venv/
-vault_input_dev.xlsx
-vault_output_dev.xlsx
 vault_input_prod.xlsx
 vault_output_prod.xlsx
